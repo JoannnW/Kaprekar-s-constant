@@ -10,44 +10,29 @@ public class Kaprekar {
     private boolean flag;
 
     public Kaprekar(int num){
-        this.original = num;
         if (twoDiffDigits(num)){//// Correctly check if the number has at least two different digits
-            answer = KaprekarProcess(num);
+            KaprekarProcess(num);
         }
-    }
-
-    public int KaprekarProcess(int num){
-        int currentNum = num;
-        while (currentNum != 6174 && counter < 8) { // limit to 8 iterations
-            getMyArray(currentNum);
-            ascending();
-            descending();
-            currentNum = this.firstNum - this.secondNum;
-            counter++;
-        }
-        return currentNum;
     }
 
     public boolean twoDiffDigits(int num) {
-        if (num < 0) {
-            return false; //handle negative inputs
+        String numStr = String.valueOf(num);
+
+        // Check if number has at least 2 different digits
+        if (numStr.chars().distinct().count() < 2) {
+            System.out.println("Number does not have at least 2 different digits.");
+            return false;
         }
-        // Handle leading zeros by padding with zeros if necessary.
-        String numStr = String.format("%04d", num);
-        char[] digits = numStr.toCharArray();
-        boolean hasTwoDifferentDigits = false;
-        for (int i = 0; i < digits.length; i++) {
-            for (int j = i + 1; j < digits.length; j++) {
-                if (digits[i] != digits[j]) {
-                    hasTwoDifferentDigits = true;
-                    break;
-                }
-            }
-            if (hasTwoDifferentDigits) {
-                break;
+
+        // Format number into a 4-digit number
+        if (numStr.length() < 4) {
+            int diff = 4 - numStr.length();
+            for (int i = 0; i < diff; i++) {
+                numStr += "0";
             }
         }
-        return hasTwoDifferentDigits;
+        this.original = Integer.parseInt(numStr);
+        return true;
     }
 
 
@@ -79,7 +64,7 @@ public class Kaprekar {
         }
         firstNum = 0;
         for (int i = 0; i < myArray.length; i++) {
-            firstNum = firstNum * 10 + myArray[i];
+            this.firstNum = firstNum * 10 + myArray[i];
         }
         return firstNum;
     }
@@ -97,7 +82,7 @@ public class Kaprekar {
         }
         secondNum = 0;
         for (int i = 0; i < myArray.length; i++) {
-            secondNum = secondNum * 10 + myArray[i];
+            this.secondNum = secondNum * 10 + myArray[i];
         }
         return secondNum;
     }
@@ -112,6 +97,18 @@ public class Kaprekar {
 
     public int getAnswer() {
         return answer;
+    }
+
+    public int KaprekarProcess(int num){
+        answer = num;
+        while (answer != 6174 && counter < 8) { // limit to 8 iterations
+            getMyArray(answer);
+            ascending();
+            descending();
+            answer = Math.abs(this.firstNum - this.secondNum);
+            counter++;
+        }
+        return counter;
     }
 
     //Take any four-digit number, using at least two different digits (leading zeros are allowed).
