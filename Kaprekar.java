@@ -12,6 +12,8 @@ public class Kaprekar {
     public Kaprekar(int num){
         if (twoDiffDigits(num)){//// Correctly check if the number has at least two different digits
             KaprekarProcess(num);
+        } else {
+            System.out.println("Please check if the number has at least 2 different digits.");
         }
     }
 
@@ -20,8 +22,12 @@ public class Kaprekar {
 
         // Check if number has at least 2 different digits
         if (numStr.chars().distinct().count() < 2) {
-            System.out.println("Number does not have at least 2 different digits.");
+            this.original = Integer.parseInt(numStr);
             return false;
+        }
+
+        if (num < 0){
+            num = Integer.parseInt(numStr.substring(1));
         }
 
         // Format number into a 4-digit number
@@ -35,14 +41,22 @@ public class Kaprekar {
         return true;
     }
 
-
+    public int KaprekarProcess(int num){
+        answer = num;
+        while (answer != 6174 && counter < 8) { // limit to 8 iterations
+            getMyArray(answer);
+            ascending();
+            descending();
+            answer = Math.abs(this.firstNum - this.secondNum);
+            counter++;
+        }
+        return counter;
+    }
 
     public void getMyArray(int num) {
-        boolean isNegative = false;
         // Handles numbers of different lengths, padding with leading zeros.
         if (num < 0){
             num = Math.abs(num);
-            isNegative = true;
         }
 
         String numStr = String.format("%04d", num); // Ensures 4 digits with leading zeros
@@ -99,17 +113,6 @@ public class Kaprekar {
         return answer;
     }
 
-    public int KaprekarProcess(int num){
-        answer = num;
-        while (answer != 6174 && counter < 8) { // limit to 8 iterations
-            getMyArray(answer);
-            ascending();
-            descending();
-            answer = Math.abs(this.firstNum - this.secondNum);
-            counter++;
-        }
-        return counter;
-    }
 
     //Take any four-digit number, using at least two different digits (leading zeros are allowed).
     //normal 4 digits --> check if there are at least 2 different digits

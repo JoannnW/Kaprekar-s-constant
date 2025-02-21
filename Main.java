@@ -40,9 +40,9 @@ public class Main {
         System.out.println("Kaprekar constant reached in " + kaprekar8.getCounter() + " iterations.");
         System.out.println("Actual answer: 0");
 
-        Kaprekar kaprekar9 = new Kaprekar(-3412);
+        Kaprekar kaprekar9 = new Kaprekar(-3524);
         System.out.println("\n\n9. \nOriginal number: " + kaprekar9.getOriginal());
         System.out.println("Kaprekar constant reached in " + kaprekar9.getCounter() + " iterations.");
-        System.out.println("Actual answer: 0");
+        System.out.println("Actual answer: 3");
     }
 }
